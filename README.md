@@ -53,6 +53,16 @@
     ```
 - Nun sollte eine (fast) leere Anwendung im Browser zu sehen sein.
 
+
+> [!IMPORTANT]
+> Achtung! Wenn du **Linux** (oder evtl. auch **Windows**) benutzt, kommt es beim Ausführen von `npm run dev` eventuell zu einem Fehler `Cannot find module '@rollup/rollup-linux-arm64-gnu'`
+>
+> In diesem Fall bitte im `workspace`-Verzeichnis:
+>  - die `package-lock.json` löschen
+>  - das `node_modules`-Verzeichnis löschen (falls schon vorhanden)
+>  - dann nochmal `npm install` ausführen
+>  Jetzt sollte auch das starten funktionieren!
+
 - Du kannst Backend und Frontend jetzt bis zur Schulung wieder beenden :-)
 
 ## Bei Fragen und Problemen
