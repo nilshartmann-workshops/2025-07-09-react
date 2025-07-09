@@ -29,7 +29,7 @@ export default function PlantCard(props: PlantCardProps) {
 
   // const lastWatered = props.lastWatered === undefined ?  "heute" : props.lastWatered;
   // const lastWatered = props.lastWatered ?? "heute" ;
-   
+
 // export default function PlantCard({ name, location, lastWatered = "Heute" } : PlantCardProps) {
   // MVC
   // Model  -> Beans oder PoJos

@@ -27,6 +27,7 @@
     - kannst du eine Warnung o.ä. ausgeben, wenn die Wässerung überfällig ist?
         - Du findest in `components/date-utils.ts` die Funktion
           `getDaysUntilWatering` mit der du ausrechnen kannst, wann die nächste Wässerung erfolgen muss bzw. wie lange sie schon überfällig ist
+          (Datumsformat für `lastWatered` muss sein: `YYYY-MM-DD`, z.B. `2025-06-28`). Um eine "rote" Meldung auszugeben, könnt ihr die CSS Klasse `error-message` setzen
     - zum ausprobieren kannst du in `App` mehrere
       `PlantCard`-Komponenten mit unterschiedlichen Properties rendern
 
