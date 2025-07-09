@@ -1,3 +1,4 @@
+
 // React Properties (XML Attribute) ("props")
 
 // AUFRUF:
@@ -16,6 +17,8 @@
 //   lastWatered:"2025-06-30",
 // }
 
+
+
 type PlantCardProps = {
   name: string;
   location: string;
@@ -23,6 +26,7 @@ type PlantCardProps = {
   // optional:
   lastWatered?: string;
 };
+
 
 
 export default function PlantCard(props: PlantCardProps) {
@@ -39,6 +43,7 @@ export default function PlantCard(props: PlantCardProps) {
   // JSX
   //  React.createElement("div")
 
+
   const wateringInfo =
     props.wateringInterval === 1
       ? "Jeden Tag gießen"
@@ -54,8 +59,9 @@ export default function PlantCard(props: PlantCardProps) {
         <div>{wateringInfo}</div>
         <div>
           {props.lastWatered === undefined
-            ? "Noch nie gegossen!"
-            : `Zuletzt gegossen am ${props.lastWatered}`}
+            ? `Noch nie gegossen!`
+            : `Zuletzt gegossen am ${props.lastWatered}`
+          }
         </div>
       </section>
     </div>
