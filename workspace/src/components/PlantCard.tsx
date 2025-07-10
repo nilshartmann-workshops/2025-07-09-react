@@ -31,6 +31,8 @@ type PlantCardProps = {
 
 export default function PlantCard(props: PlantCardProps) {
 
+  // props.location = "Standort: " + props.location
+
   // const lastWatered = props.lastWatered === undefined ?  "heute" : props.lastWatered;
   // const lastWatered = props.lastWatered ?? "heute" ;
 

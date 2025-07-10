@@ -7,6 +7,7 @@
 
 import { Plant } from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
+import IntervalSelector from "./IntervalSelector.tsx";
 
 // liste.map( function(aktuellenWert) { return aktuellenWert.toUpperCase()  } )
 // liste.map( aktuellenWert => aktuellenWert.toUpperCase() )
@@ -31,7 +32,8 @@ const allPlants: Plant[] = [
 export default function App() {
   return (
     <div className={"AppContainer"}>
-      <PlantCardList plants={allPlants} />
+      <IntervalSelector />
+      {/*<PlantCardList plants={allPlants} />*/}
       {/*<PlantCard name={aloeVeraPlant.name}*/}
       {/*           location={aloeVeraPlant.location} */}
       {/*           wateringInterval={aloeVeraPlant.wateringInterval} */}
