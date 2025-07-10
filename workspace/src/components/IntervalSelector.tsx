@@ -42,7 +42,7 @@ export default function IntervalSelector(props: IntervalSelectorProps) {
 
   return <div>
     <label>Gießinterval</label>
-    <input type={"number"} value={props.wateringInterval}
+    <input type={"number"} value={props.wateringInterval === undefined ? "": props.wateringInterval}
       // onChange={ handleChangeEvent }
       onChange={event => props.onWateringIntervalChange(parseInt(event.target.value))}
     />
