@@ -52,8 +52,7 @@ export default function App() {
   // }
 
   const [count, setCount] = useState(1);
-  const [ wateringInterval, setWateringInterval ] = useState<number | undefined>();
-
+  const [ wateringInterval, setWateringInterval ] = useState<number|undefined>();
 
   return (
     <div className={"AppContainer"}>
@@ -66,7 +65,7 @@ export default function App() {
         Ein/Ausblenden
       </button>
 
-      {/*<PlantCardList plants={allPlants} />*/}
+      <PlantCardList plants={allPlants} />
       {/*<PlantCard name={aloeVeraPlant.name}*/}
       {/*           location={aloeVeraPlant.location} */}
       {/*           wateringInterval={aloeVeraPlant.wateringInterval} */}
