@@ -51,9 +51,17 @@ export default function App() {
   //   })
   // }
 
+  const [count, setCount] = useState(1);
+  const [ wateringInterval, setWateringInterval ] = useState(7);
+
+
   return (
     <div className={"AppContainer"}>
-      {isVisible ? <IntervalSelector /> : <p>Kein IntervalSelector :-(</p> }
+      <button onClick={() => setCount(count+1)}>Increase Counter {count}</button>
+      {isVisible ? <IntervalSelector
+        wateringInterval={wateringInterval}
+        onWateringIntervalChange={setWateringInterval}
+      /> : <p>Kein IntervalSelector :-(</p> }
       <button onClick={() => setIsVisible(!isVisible)}>
         Ein/Ausblenden
       </button>

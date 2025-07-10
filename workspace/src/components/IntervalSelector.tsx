@@ -1,6 +1,19 @@
 import { ChangeEvent, useState } from "react";
 
-export default function IntervalSelector() {
+type IntervalSelectorProps = {
+  wateringInterval: number;
+  onWateringIntervalChange(newWateringInterval: number): void
+
+  // onWateringIntervalChange2: (newWateringInterval: number) => void
+
+}
+
+//
+// interface JavaIntervalSelectorProps  {
+//   void onWateringIntervalChange(int newWateringInterval)
+// }
+
+export default function IntervalSelector(props: IntervalSelectorProps) {
 
   console.log("Aktuelle Zeit", new Date().toISOString());
 
@@ -10,16 +23,15 @@ export default function IntervalSelector() {
   // const wateringInterval = state[0];
   // const setWateringInterval = state[1];
 
-  const [ wateringInterval, setWateringInterval ] = useState(7);
 
   // TODO: Countdown
 
   // setWateringInterval(wateringInterval + 1)
 
-  const error = wateringInterval < 1 ? "Bitte Zahl größergleich 1 eingeben" : "";
+  const error = props.wateringInterval < 1 ? "Bitte Zahl größergleich 1 eingeben" : "";
 
   function handleChangeEvent(event: ChangeEvent<HTMLInputElement>) {
-    setWateringInterval(parseInt(event.target.value))
+    props.onWateringIntervalChange(parseInt(event.target.value))
   }
 
   // "Virtueller" DOM
@@ -30,14 +42,14 @@ export default function IntervalSelector() {
 
   return <div>
     <label>Gießinterval</label>
-    <input type={"number"} value={wateringInterval}
+    <input type={"number"} value={props.wateringInterval}
       // onChange={ handleChangeEvent }
-      onChange={event => setWateringInterval(parseInt(event.target.value))}
+      onChange={event => props.onWateringIntervalChange(parseInt(event.target.value))}
     />
-    <p>Sie müssen die Pflanze alle {wateringInterval} Tage gießen</p>
+    <p>Sie müssen die Pflanze alle {props.wateringInterval} Tage gießen</p>
     <div>{error}</div>
     <button
-      onClick={ () => setWateringInterval(14) }
+      onClick={ () => props.onWateringIntervalChange(14) }
       className={"btn-primary"}>Alle 2 Wochen gießen</button>
   </div>
 
