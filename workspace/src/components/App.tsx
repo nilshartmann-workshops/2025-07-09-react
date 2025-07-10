@@ -8,6 +8,7 @@
 import { Plant } from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
+import { useState } from "react";
 
 // liste.map( function(aktuellenWert) { return aktuellenWert.toUpperCase()  } )
 // liste.map( aktuellenWert => aktuellenWert.toUpperCase() )
@@ -28,11 +29,35 @@ const allPlants: Plant[] = [
   },
 ];
 
+// type VisibilityState = {
+//   intervalSelectorVisible: boolean,
+//   navBarVisible: boolean
+// }
 
 export default function App() {
+
+  const [isVisible, setIsVisible] = useState(true);
+  // const [isNavBarVisible, setIsNavVisible] = useState(true);
+  // const [isX, setX] = useState<VisibilityState>({
+  //   intervalSelectorVisible: true,
+  //   navBarVisible: false
+  // });
+  //
+  // function handleNavBarOpen() {
+  //   isX.navBarVisible = true
+  //   setX({
+  //     intervalSelectorVisible: false,
+  //     navBarVisible: true
+  //   })
+  // }
+
   return (
     <div className={"AppContainer"}>
-      <IntervalSelector />
+      {isVisible ? <IntervalSelector /> : <p>Kein IntervalSelector :-(</p> }
+      <button onClick={() => setIsVisible(!isVisible)}>
+        Ein/Ausblenden
+      </button>
+
       {/*<PlantCardList plants={allPlants} />*/}
       {/*<PlantCard name={aloeVeraPlant.name}*/}
       {/*           location={aloeVeraPlant.location} */}
