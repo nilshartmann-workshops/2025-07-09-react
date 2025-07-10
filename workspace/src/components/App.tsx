@@ -9,6 +9,7 @@ import { Plant } from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
 import { useState } from "react";
+import PlantForm from "./PlantForm.tsx";
 
 // liste.map( function(aktuellenWert) { return aktuellenWert.toUpperCase()  } )
 // liste.map( aktuellenWert => aktuellenWert.toUpperCase() )
@@ -56,6 +57,7 @@ export default function App() {
 
   return (
     <div className={"AppContainer"}>
+      <PlantForm />
       <button onClick={() => setCount(count+1)}>Increase Counter {count}</button>
       {isVisible ? <IntervalSelector
         wateringInterval={wateringInterval}
