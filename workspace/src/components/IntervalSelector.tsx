@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function IntervalSelector() {
 
@@ -18,6 +18,10 @@ export default function IntervalSelector() {
 
   const error = wateringInterval < 1 ? "Bitte Zahl größergleich 1 eingeben" : "";
 
+  function handleChangeEvent(event: ChangeEvent<HTMLInputElement>) {
+    setWateringInterval(parseInt(event.target.value))
+  }
+
   // "Virtueller" DOM
   //   element: div
   //     children:
@@ -27,7 +31,8 @@ export default function IntervalSelector() {
   return <div>
     <label>Gießinterval</label>
     <input type={"number"} value={wateringInterval}
-      onChange={ event => setWateringInterval(parseInt(event.target.value)) }
+      // onChange={ handleChangeEvent }
+      onChange={event => setWateringInterval(parseInt(event.target.value))}
     />
     <p>Sie müssen die Pflanze alle {wateringInterval} Tage gießen</p>
     <div>{error}</div>
