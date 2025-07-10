@@ -52,7 +52,7 @@ export default function App() {
   // }
 
   const [count, setCount] = useState(1);
-  const [ wateringInterval, setWateringInterval ] = useState(7);
+  const [ wateringInterval, setWateringInterval ] = useState<number | undefined>();
 
 
   return (

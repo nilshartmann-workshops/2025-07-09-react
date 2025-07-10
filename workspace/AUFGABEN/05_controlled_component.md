@@ -7,14 +7,14 @@
 
 # Aufgabe
 
-- Mach' aus dem `IntevalSelector` eine _kontrollierte_ (controlled) Komponente
+- Mach' aus dem `IntervalSelector` eine _kontrollierte_ (controlled) Komponente
 
 # Schritte
 
 1. Erzeuge einen TypeScript-Type für die Properties von `IntervalSelector`
     - Als Props brauchst du:
       1. eine Callback-Funktion, die vom `IntervalSelector` aufgerufen wird, wenn darin der Wert geändert wird
-      2. den aktuellen Wert, der vom `IntervalSlider` angezeigt werden soll
+      2. den aktuellen Wert, der vom `IntervalSelector` angezeigt werden soll
 2. Entferne den State aus der Komponente und verschiebe ihn in die `App`-Komponente
     - Pass' dort den Aufruf der `IntervalSelector`-Komponente an
 3. Erweitere die Schnittstelle der `IntervalSelector`-Komponente

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 
 type IntervalSelectorProps = {
-  wateringInterval: number;
+  wateringInterval?: number;
   onWateringIntervalChange(newWateringInterval: number): void
 
   // onWateringIntervalChange2: (newWateringInterval: number) => void
@@ -28,7 +28,7 @@ export default function IntervalSelector(props: IntervalSelectorProps) {
 
   // setWateringInterval(wateringInterval + 1)
 
-  const error = props.wateringInterval < 1 ? "Bitte Zahl größergleich 1 eingeben" : "";
+  const error = props.wateringInterval !== undefined && props.wateringInterval < 1 ? "Bitte Zahl größergleich 1 eingeben" : "";
 
   function handleChangeEvent(event: ChangeEvent<HTMLInputElement>) {
     props.onWateringIntervalChange(parseInt(event.target.value))
