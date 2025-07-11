@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import IntervalSelector from "./IntervalSelector.tsx";
 import ky from "ky";
 import { PlantSchema } from "../types.ts";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const IsoDateOrUndefined = z.string()
   .transform(s => {
@@ -64,16 +65,33 @@ export default function PlantForm() {
     mode: "onBlur"
   });
 
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    async mutationFn(data: PlantFormState) {
+      const response = await ky.post("http://localhost:7200/api/plants?slow=2000", {
+        json:  data
+      }).json();
+
+      return PlantSchema.parse(response);
+    },
+    onSuccess(newPlant) {
+      queryClient.invalidateQueries({
+        queryKey: ["plants", "list"]
+      })
+      queryClient.setQueryData(
+        ["plants", "details", newPlant.id],
+        newPlant
+      )
+    }
+  })
+
   async function handleSave(data: PlantFormState) {
     console.log("DATA im Formular", data);
 
-    const response = await ky.post("http://localhost:7200/api/plants", {
-     json:  data
-    }).json();
-
-    const newPlant = PlantSchema.parse(response);
-    console.log("GespeicherT!", newPlant)
-
+    await mutation.mutateAsync(data);
+    //
+    form.reset();
   }
 
   function handleError(errors: any) {
@@ -149,7 +167,16 @@ export default function PlantForm() {
       }
     </div>
 
-    <button className={"primary"}>
+    {mutation.isPending
+      ? <p>Daten werden gespeichert!</p>: null}
+
+    {mutation.isSuccess
+      ? <p>Daten wurden gespeichert!</p>: null}
+
+    {mutation.isError
+      ? <p>Daten wurden NICHT gespeichert!</p>: null}
+
+    <button className={"primary"} disabled={mutation.isPending}>
       Speichern
     </button>
     <button className={"secondary"}

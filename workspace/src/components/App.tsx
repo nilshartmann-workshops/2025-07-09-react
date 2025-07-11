@@ -101,11 +101,13 @@ export default function App() {
 
   return (
     <div className={"AppContainer"}>
+      <div className={"flex gap-x-8"}>
       <PlantForm />
 
       <Suspense fallback={<h1>Please wait for the plants</h1>}>
         <PlantCardListLoader />
       </Suspense>
+      </div>
       {/*<button onClick={ ()  => loadPlants() }>Laden</button>*/}
       {/*<PlantCardList plants={allPlants} />*/}
 
