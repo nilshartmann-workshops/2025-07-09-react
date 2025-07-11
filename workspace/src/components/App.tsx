@@ -43,6 +43,8 @@ import ky from "ky";
 //   return a + b + value;
 // }
 
+// let forbiddenCounter = 1;
+
 // 1. Phase "render phase" => Funktion wird ausgeführt => liefert JSX zurück ("virtueller DOM")
 // 2. Commit Phase => Virtuellen Dom => "committed" in den "echten" DOM
 export default function App() {
@@ -94,6 +96,8 @@ export default function App() {
   //   window.document.title = allPlants.length + " Pflanzen geladen"
   // }, [ allPlants.length ])
 
+  // forbiddenCounter = forbiddenCounter + 1;
+
   return (
     <div className={"AppContainer"}>
       <PlantForm />
@@ -101,6 +105,7 @@ export default function App() {
       <PlantCardList plants={allPlants} />
 
       <button onClick={() => setCount(count+1)}>Increase Counter {count}</button>
+      {/*<p>Forbidden counter: {forbiddenCounter}</p>*/}
       {/*{isVisible ? <IntervalSelector*/}
       {/*  wateringInterval={wateringInterval}*/}
       {/*  onWateringIntervalChange={setWateringInterval}*/}
