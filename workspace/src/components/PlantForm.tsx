@@ -9,13 +9,29 @@ const IsoDateOrUndefined = z.string()
       return undefined
     }
     return s;
-  }).pipe(z.iso.date().optional())
+  }).pipe(z.iso.date("Bitte gib ein gültiges Datum im Format YYYY-MM-DD an.").optional())
 
 const PlantFormStateSchema = z.object({
-  name: z.string().nonempty(),
-  location: z.string().nonempty(),
+  name: z.string().nonempty("Bitte gib einen Pflanzennamen an"),
+  location: z.string().nonempty("Bitte gib den Standort der Pflanze an"),
   // wateringInterval: z.number().min(1),
-  lastWatered: IsoDateOrUndefined
+  lastWatered: IsoDateOrUndefined.refine(v => {
+    if (v===undefined) {
+      // kein Datum gesetzt => gültig!
+      return true;
+    }
+
+    const now = Date.now();
+
+    if (Date.parse(v) <= now) {
+      return true;
+    }
+
+    return false;
+
+  }, {
+    error: "Das Datum muss in der Vergangenheit liegen!"
+  })
 })
 
 type PlantFormState = z.infer<typeof PlantFormStateSchema>
@@ -24,9 +40,17 @@ type PlantFormState = z.infer<typeof PlantFormStateSchema>
 export default function PlantForm() {
 
   const form = useForm({
-    resolver: zodResolver(PlantFormStateSchema)
-    }
-  );
+    resolver: zodResolver(PlantFormStateSchema),
+    // defaultValues: befüllen das Formular vor
+    //   z.B. mit Daten, die vom Server gelesen wurden
+    defaultValues: {
+      name: "",
+      location: "Schlafzimmer",
+      lastWatered: ""
+    },
+    // mode gibt an, wann validiert wird
+    mode: "onBlur"
+  });
 
   function handleSave(data: PlantFormState) {
     console.log("DATA im Formular", data);
@@ -40,10 +64,18 @@ export default function PlantForm() {
   //  formik
   //  TanStack form
 
+  // form.getFieldState("name").invalid
+
   return <form onSubmit={form.handleSubmit(handleSave, handleError)}>
     <div className={"FormControl"}>
       <label>Name</label>
       <input {...form.register("name")} />
+      {form.formState.errors.name === undefined ?
+        null :
+        <p className={"error-message"}>
+          {form.formState.errors.name.message}
+        </p>
+      }
     </div>
 
     <div className={"FormControl"}>
@@ -54,6 +86,12 @@ export default function PlantForm() {
         <option value={"Schlafzimmer"}>Schlafzimmer</option>
         <option value={"Bad"}>Bad</option>
       </select>
+      {form.formState.errors.location === undefined ?
+        null :
+        <p className={"error-message"}>
+          {form.formState.errors.location.message}
+        </p>
+      }
     </div>
 
     <div className={"FormControl"}>
@@ -69,10 +107,21 @@ export default function PlantForm() {
         // }
       // }
       )}/>
+      {form.formState.errors.lastWatered === undefined ?
+        null :
+        <p className={"error-message"}>
+          {form.formState.errors.lastWatered.message}
+        </p>
+      }
     </div>
 
     <button className={"primary"}>
       Speichern
+    </button>
+    <button className={"secondary"}
+      onClick={() => form.reset()}
+    >
+      Formular löschen 🧹
     </button>
 
 
