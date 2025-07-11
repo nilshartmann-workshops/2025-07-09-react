@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, Form, useForm } from "react-hook-form";
 import { z } from "zod/v4";
 import { zodResolver } from "@hookform/resolvers/zod";
+import IntervalSelector from "./IntervalSelector.tsx";
 
 const IsoDateOrUndefined = z.string()
   .transform(s => {
@@ -14,7 +15,7 @@ const IsoDateOrUndefined = z.string()
 const PlantFormStateSchema = z.object({
   name: z.string().nonempty("Bitte gib einen Pflanzennamen an"),
   location: z.string().nonempty("Bitte gib den Standort der Pflanze an"),
-  // wateringInterval: z.number().min(1),
+  wateringInterval: z.number().min(1),
   lastWatered: IsoDateOrUndefined.refine(v => {
     if (v===undefined) {
       // kein Datum gesetzt => gültig!
@@ -38,6 +39,15 @@ type PlantFormState = z.infer<typeof PlantFormStateSchema>
 
 
 export default function PlantForm() {
+
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   setError,
+  //   formState: { errors },
+  // } = useForm({
+  //   resolver: zodResolver(PlantFormStateSchema)
+  // })
 
   const form = useForm({
     resolver: zodResolver(PlantFormStateSchema),
@@ -70,12 +80,7 @@ export default function PlantForm() {
     <div className={"FormControl"}>
       <label>Name</label>
       <input {...form.register("name")} />
-      {form.formState.errors.name === undefined ?
-        null :
-        <p className={"error-message"}>
-          {form.formState.errors.name.message}
-        </p>
-      }
+      <ErrorMessage msg={form.formState.errors.name?.message} />
     </div>
 
     <div className={"FormControl"}>
@@ -92,6 +97,24 @@ export default function PlantForm() {
           {form.formState.errors.location.message}
         </p>
       }
+    </div>
+
+    <div className={"FormControl"}>
+      <Controller
+        control={form.control}
+        name={"wateringInterval"}
+         // Render Prop Pattern
+        render={ field => {
+          return  <IntervalSelector
+            wateringInterval={field.field.value}
+            onWateringIntervalChange={ newWateringInterval => {
+              field.field.onChange(newWateringInterval);
+            }} />
+        }
+        }
+      />
+      <ErrorMessage msg={form.formState.errors.wateringInterval?.message} />
+
     </div>
 
     <div className={"FormControl"}>
@@ -123,8 +146,20 @@ export default function PlantForm() {
     >
       Formular löschen 🧹
     </button>
-
-
   </form>
+}
+
+type ErrorMessageProps = {
+  msg: string | undefined
+}
+function ErrorMessage( { msg }: ErrorMessageProps) {
+
+  if (msg === undefined) {
+    return null;
+  }
+
+  return <p className={"error-message"}>{msg}</p>
 
 }
+
+// ...

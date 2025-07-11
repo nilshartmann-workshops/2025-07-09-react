@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { useFormContext } from "react-hook-form";
 
 type IntervalSelectorProps = {
   wateringInterval?: number;
