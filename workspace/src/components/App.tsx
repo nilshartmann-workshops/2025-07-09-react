@@ -11,6 +11,7 @@ import IntervalSelector from "./IntervalSelector.tsx";
 import { use, useEffect, useState } from "react";
 import PlantForm from "./PlantForm.tsx";
 import ky from "ky";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 // liste.map( function(aktuellenWert) { return aktuellenWert.toUpperCase()  } )
 // liste.map( aktuellenWert => aktuellenWert.toUpperCase() )
@@ -101,10 +102,11 @@ export default function App() {
   return (
     <div className={"AppContainer"}>
       <PlantForm />
-      <button onClick={ ()  => loadPlants() }>Laden</button>
-      <PlantCardList plants={allPlants} />
+      <PlantCardListLoader />
+      {/*<button onClick={ ()  => loadPlants() }>Laden</button>*/}
+      {/*<PlantCardList plants={allPlants} />*/}
 
-      <button onClick={() => setCount(count+1)}>Increase Counter {count}</button>
+      {/*<button onClick={() => setCount(count+1)}>Increase Counter {count}</button>*/}
       {/*<p>Forbidden counter: {forbiddenCounter}</p>*/}
       {/*{isVisible ? <IntervalSelector*/}
       {/*  wateringInterval={wateringInterval}*/}
@@ -131,4 +133,22 @@ export default function App() {
       {/*           wateringInterval={1} />*/}
     </div>
   );
+}
+
+function PlantCardListLoader() {
+  // const { data } = useSuspenseQuery({
+  const result = useSuspenseQuery({
+    queryKey: ["plants", "list"],
+    async queryFn() {
+      const data = await ky
+        .get("http://localhost:7200/api/plants?slow=1200")
+        .json();
+      const plantsFromServer = PlantSchema.array().parse(data);
+      return plantsFromServer;
+    }
+  })
+
+  const plants = result.data;
+
+  return <PlantCardList plants={plants} />
 }
