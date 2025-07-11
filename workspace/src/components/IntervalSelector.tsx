@@ -16,7 +16,7 @@ type IntervalSelectorProps = {
 
 export default function IntervalSelector(props: IntervalSelectorProps) {
 
-  console.log("Aktuelle Zeit", new Date().toISOString());
+  // console.log("Aktuelle Zeit", new Date().toISOString());
 
   // "State" (Zustand, "Model")
   // const state = useState(2);

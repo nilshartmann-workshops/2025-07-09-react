@@ -8,7 +8,7 @@
 import { Plant, PlantSchema } from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import PlantForm from "./PlantForm.tsx";
 import ky from "ky";
 
@@ -36,6 +36,15 @@ import ky from "ky";
 //   navBarVisible: boolean
 // }
 
+// let value = 0;
+//
+// function add(a: number, b: number) {
+//   value = value + 1
+//   return a + b + value;
+// }
+
+// 1. Phase "render phase" => Funktion wird ausgeführt => liefert JSX zurück ("virtueller DOM")
+// 2. Commit Phase => Virtuellen Dom => "committed" in den "echten" DOM
 export default function App() {
 
   const [isVisible, setIsVisible] = useState(true);
@@ -58,6 +67,7 @@ export default function App() {
 
   const [allPlants, setAllPlants] = useState<Plant[]>([])
 
+
   // async / await
   async function loadPlants() {
     // // CompletableFuture
@@ -76,11 +86,18 @@ export default function App() {
 
   // NICHT!!!!!!!!!!! VERBOTEN!!!!!!!!!!!::::::::::: 👮 👮 👮 👮 👮
   // loadPlants();
+  // window.document.title = "Plant Manager 2000 Enterprise"
+  // https://react.dev/learn/you-might-not-need-an-effect
+  // useEffect( () => {
+  //   console.log("Effekt wird ausgeführt!")
+  //   // "Effect Callback"
+  //   window.document.title = allPlants.length + " Pflanzen geladen"
+  // }, [ allPlants.length ])
 
   return (
     <div className={"AppContainer"}>
       <PlantForm />
-      <button onClick={ ()  => loadPlants()}>Laden</button>
+      <button onClick={ ()  => loadPlants() }>Laden</button>
       <PlantCardList plants={allPlants} />
 
       <button onClick={() => setCount(count+1)}>Increase Counter {count}</button>
