@@ -8,7 +8,7 @@
 import { Plant, PlantSchema } from "../types.ts";
 import PlantCardList from "./PlantCardList.tsx";
 import IntervalSelector from "./IntervalSelector.tsx";
-import { use, useEffect, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import PlantForm from "./PlantForm.tsx";
 import ky from "ky";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -102,7 +102,10 @@ export default function App() {
   return (
     <div className={"AppContainer"}>
       <PlantForm />
-      <PlantCardListLoader />
+
+      <Suspense fallback={<h1>Please wait for the plants</h1>}>
+        <PlantCardListLoader />
+      </Suspense>
       {/*<button onClick={ ()  => loadPlants() }>Laden</button>*/}
       {/*<PlantCardList plants={allPlants} />*/}
 
@@ -137,11 +140,12 @@ export default function App() {
 
 function PlantCardListLoader() {
   // const { data } = useSuspenseQuery({
+
   const result = useSuspenseQuery({
     queryKey: ["plants", "list"],
     async queryFn() {
       const data = await ky
-        .get("http://localhost:7200/api/plants?slow=1200")
+        .get("http://localhost:7200/api/plants?slow=2400")
         .json();
       const plantsFromServer = PlantSchema.array().parse(data);
       return plantsFromServer;
