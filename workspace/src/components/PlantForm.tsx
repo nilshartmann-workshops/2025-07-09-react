@@ -3,6 +3,8 @@ import { Controller, Form, useForm } from "react-hook-form";
 import { z } from "zod/v4";
 import { zodResolver } from "@hookform/resolvers/zod";
 import IntervalSelector from "./IntervalSelector.tsx";
+import ky from "ky";
+import { PlantSchema } from "../types.ts";
 
 const IsoDateOrUndefined = z.string()
   .transform(s => {
@@ -62,8 +64,16 @@ export default function PlantForm() {
     mode: "onBlur"
   });
 
-  function handleSave(data: PlantFormState) {
+  async function handleSave(data: PlantFormState) {
     console.log("DATA im Formular", data);
+
+    const response = await ky.post("http://localhost:7200/api/plants", {
+     json:  data
+    }).json();
+
+    const newPlant = PlantSchema.parse(response);
+    console.log("GespeicherT!", newPlant)
+
   }
 
   function handleError(errors: any) {
@@ -77,6 +87,7 @@ export default function PlantForm() {
   // form.getFieldState("name").invalid
 
   return <form onSubmit={form.handleSubmit(handleSave, handleError)}>
+
     <div className={"FormControl"}>
       <label>Name</label>
       <input {...form.register("name")} />
@@ -110,7 +121,7 @@ export default function PlantForm() {
             onWateringIntervalChange={ newWateringInterval => {
               field.field.onChange(newWateringInterval);
             }} />
-        }
+          }
         }
       />
       <ErrorMessage msg={form.formState.errors.wateringInterval?.message} />
