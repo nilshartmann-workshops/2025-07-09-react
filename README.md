@@ -8,7 +8,7 @@
 
 ### Schritt 1: Klonen des Repositories
 
-- Bitte dieses Repository von GitHub klonen
+- Bitte dieses Repository https://github.com/nilshartmann-workshops/2025-07-09-react von GitHub klonen (oder als Zip-Datei runterladen)
 
 ### Schritt 2: Öffnen in der IDE / im Editor
 
